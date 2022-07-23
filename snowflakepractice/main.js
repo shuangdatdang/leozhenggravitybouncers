@@ -3,47 +3,11 @@ let ctx = cnv.getContext("2d");
 
 cnv.width = 800;
 cnv.height = 600;
-function randomRGB() {
-    let r = randomInt(0,256);
-    let g = randomInt(0, 256);
-    let b = randomInt(0, 256);
-    return "rgb(" + r + ", " + g + ", " + b + ")";
-}
-function fill(color){
-    ctx.fillStyle = color;
-}
-function line(x,y,x2,y2){
-    ctx.beginPath();
-    ctx.lineWidth = 3;
-    ctx.moveTo(x, y);
-    ctx.lineTo(x2, y2);
-    ctx.stroke();
-}
-function rect(x,y,w,h,mode){
-    ctx.beginPath();
-    ctx.rect(x,y,w,h);
-    if (mode == "fill"){
-        ctx.fill();
-    }
-    else if (mode == "stroke"){
-        ctx.stroke();
-    }
-}
-function circle(x,y,r,mode){
-    ctx.beginPath();
-    ctx.arc(x, y, r, 0, 2 * Math.PI);
-    if (mode == "fill"){
-        ctx.fill();
-    }
-    else if (mode == "stroke"){
-        ctx.stroke();
-    }
-}
-function dist(x1, y1, x2, y2) {
-    return Math.hypot(x2 - x1, y2 - y1);
-}
 let mouseX;
 let mouseY;
+document.addEventListener("mousedown", mousedownHandler);
+document.addEventListener("mouseup", mouseupHandler);
+let mouseIsPressed = false;
 let bubbles = [];
 for (let n = 1; n < 15; n++){
     bubbles.push(newRandomBubble());
@@ -80,7 +44,6 @@ function draw(){
     }
     requestAnimationFrame(draw);
 }
-
 function newRandomBubble(){
     return{
         x: randomInt(0, cnv.width),
@@ -92,38 +55,28 @@ function newRandomBubble(){
         speedX: randomInt(-1, 2)
     };
 }
-function randomInt(low,high){
-    return Math.floor(Math.random() * (high -low) + low);
-}
-function stroke(color){
-    ctx.strokeStyle = color;
-}
-function drawBubble(aBubble){
-    stroke(aBubble.color);
-    circle(aBubble.x,aBubble.y,aBubble.r,"stroke");
-}
-function moveBubble(aBubble){
-        aBubble.speed += aBubble.accel;
-        if(aBubble.speed < -5){
-            aBubble.speed = -5
-        }
-    aBubble.y += aBubble.speed;
-    aBubble.x += aBubble.speedX;
-}
-document.addEventListener("mousedown", mousedownHandler);
-document.addEventListener("mouseup", mouseupHandler);
-let mouseIsPressed = false;
+
 function mousedownHandler(event) {
     mouseIsPressed = true;
-    mouseX = event.clientX - cnv.width/2;
+    var width = window.innerWidth;
+    mouseX = event.clientX - width/2 + 400;
     mouseY = event.clientY;
 }
 function mouseupHandler() {
     mouseIsPressed = false;
 }
 function bubbleClicked(aBubble) {
-    if (dist(mouseX, mouseY, aBubble.x - aBubble.r * 1.8, aBubble.y) < aBubble.r && mouseIsPressed) {
+    if (dist(mouseX, mouseY, aBubble.x, aBubble.y) < aBubble.r && mouseIsPressed) {
         aBubble.speed += -1
         aBubble.speedX = randomInt(-1,2)
     }
+}
+function randomRGB() {
+    let r = randomInt(0,256);
+    let g = randomInt(0, 256);
+    let b = randomInt(0, 256);
+    return "rgb(" + r + ", " + g + ", " + b + ")";
+}
+function randomInt(low,high){
+    return Math.floor(Math.random() * (high -low) + low);
 }
