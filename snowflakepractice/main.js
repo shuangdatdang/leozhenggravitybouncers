@@ -12,13 +12,6 @@ let bubbles = [];
 for (let n = 1; n < 15; n++){
     bubbles.push(newRandomBubble());
 }
-function more(){
-    bubbles.push(newRandomBubble());
-}
-function less(){
-    bubbles.pop();
-}
-
 requestAnimationFrame(draw);
 function draw(){
     ctx.clearRect(0,0,cnv.width,cnv.height);
