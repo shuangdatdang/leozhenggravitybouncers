@@ -30,3 +30,40 @@ function moveBubble(aBubble){
     aBubble.y += aBubble.speed;
     aBubble.x += aBubble.speedX;
 }
+function randomRGB() {
+    let r = randomInt(0,256);
+    let g = randomInt(0, 256);
+    let b = randomInt(0, 256);
+    return "rgb(" + r + ", " + g + ", " + b + ")";
+}
+function randomInt(low,high){
+    return Math.floor(Math.random() * (high -low) + low);
+}
+function newRandomBubble(){
+    return{
+        x: randomInt(0, cnv.width),
+        y:randomInt(0, cnv.height * 3/4),
+        r:randomInt(22,50),
+        color: randomRGB(),
+        speed: 0,
+        accel: 0.05,
+        speedX: randomInt(-1, 2)
+    };
+}
+function mousedownHandler() {
+    mouseIsPressed = true;
+}
+function mouseupHandler() {
+    mouseIsPressed = false;
+}
+document.addEventListener("mousemove", mousemoveHandler);
+function mousemoveHandler(event){
+    mouseX = event.clientX - window.innerWidth/2 + 400;
+    mouseY = event.clientY;
+}
+function bubbleClicked(aBubble) {
+    if (dist(mouseX, mouseY, aBubble.x, aBubble.y) < aBubble.r && mouseIsPressed) {
+        aBubble.speed += -3
+        aBubble.speedX = randomInt(-1,2)
+    }
+}
