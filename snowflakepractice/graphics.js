@@ -63,7 +63,8 @@ function mousemoveHandler(event){
 }
 function bubbleClicked(aBubble) {
     if (dist(mouseX, mouseY, aBubble.x, aBubble.y) < aBubble.r && mouseIsPressed) {
-        aBubble.speed += -3
+        aBubble.speed += -1
+        aBubble.y += aBubble.speed
         aBubble.speedX = randomInt(-1,2)
     }
 }

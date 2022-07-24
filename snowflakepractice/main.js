@@ -22,7 +22,7 @@ function draw(){
         bubbleClicked(bubbles[i]);
         if (bubbles[i].y + bubbles[i].r  >= cnv.height){
             bubbles[i].y = cnv.height -bubbles[i].r
-            bubbles[i].speed = bubbles[i].speed * -1
+            bubbles[i].speed = bubbles[i].speed * -0.98
         }
         if (bubbles[i].y < -200){
             bubbles[i].y = -199
