@@ -3,11 +3,27 @@ let ctx = cnv.getContext("2d");
 
 cnv.width = 800;
 cnv.height = 600;
-let mouseX;
-let mouseY;
-document.addEventListener("mousedown", mousedownHandler);
-document.addEventListener("mouseup", mouseupHandler);
-let mouseIsPressed = false;
+//making the bubbles
+function randomRGB() {
+    let r = randomInt(0,256);
+    let g = randomInt(0, 256);
+    let b = randomInt(0, 256);
+    return "rgb(" + r + ", " + g + ", " + b + ")";
+}
+function randomInt(low,high){
+    return Math.floor(Math.random() * (high -low) + low);
+}
+function newRandomBubble(){
+    return{
+        x: randomInt(0, cnv.width),
+        y:randomInt(0, cnv.height * 3/4),
+        r:randomInt(22,50),
+        color: randomRGB(),
+        speed: 0,
+        accel: 0.05,
+        speedX: randomInt(-1, 2)
+    };
+}
 let bubbles = [];
 for (let n = 1; n < 15; n++){
     bubbles.push(newRandomBubble());
@@ -21,11 +37,11 @@ function draw(){
         bubbleClicked(bubbles[i]);
         if (bubbles[i].y + bubbles[i].r  >= cnv.height){
             bubbles[i].y = cnv.height -bubbles[i].r
-            bubbles[i].speed = bubbles[i].speed * -0.97
+            bubbles[i].speed = bubbles[i].speed * -1
         }
         if (bubbles[i].y < -200){
             bubbles[i].y = -199
-            bubbles[i].speed = bubbles[i].speed * -0.97
+            bubbles[i].speed = bubbles[i].speed * -1
         }
         if (bubbles[i].x - bubbles[i].r < 0){
             bubbles[i].x = bubbles[i].r
@@ -37,39 +53,27 @@ function draw(){
     }
     requestAnimationFrame(draw);
 }
-function newRandomBubble(){
-    return{
-        x: randomInt(0, cnv.width),
-        y:randomInt(0, cnv.height * 3/4),
-        r:randomInt(22,50),
-        color: randomRGB(),
-        speed: 0,
-        accel: 0.05,
-        speedX: randomInt(-1, 2)
-    };
-}
+//bouncing on click
+let mouseX;
+let mouseY;
+document.addEventListener("mousedown", mousedownHandler);
+document.addEventListener("mouseup", mouseupHandler);
+let mouseIsPressed = false;
 
-function mousedownHandler(event) {
+function mousedownHandler() {
     mouseIsPressed = true;
-    var width = window.innerWidth;
-    mouseX = event.clientX - width/2 + 400;
-    mouseY = event.clientY;
 }
 function mouseupHandler() {
     mouseIsPressed = false;
 }
+document.addEventListener("mousemove", mousemoveHandler);
+function mousemoveHandler(event){
+    mouseX = event.clientX - window.innerWidth/2 + 400;
+    mouseY = event.clientY;
+}
 function bubbleClicked(aBubble) {
     if (dist(mouseX, mouseY, aBubble.x, aBubble.y) < aBubble.r && mouseIsPressed) {
-        aBubble.speed += -1
+        aBubble.speed += -3
         aBubble.speedX = randomInt(-1,2)
     }
-}
-function randomRGB() {
-    let r = randomInt(0,256);
-    let g = randomInt(0, 256);
-    let b = randomInt(0, 256);
-    return "rgb(" + r + ", " + g + ", " + b + ")";
-}
-function randomInt(low,high){
-    return Math.floor(Math.random() * (high -low) + low);
 }

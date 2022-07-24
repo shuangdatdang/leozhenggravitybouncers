@@ -24,8 +24,8 @@ function drawBubble(aBubble){
 }
 function moveBubble(aBubble){
     aBubble.speed += aBubble.accel;
-    if(aBubble.speed < -5){
-        aBubble.speed = -5
+    if(aBubble.speed < -7){
+        aBubble.speed = -7
     }
     aBubble.y += aBubble.speed;
     aBubble.x += aBubble.speedX;
