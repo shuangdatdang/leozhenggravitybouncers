@@ -58,8 +58,8 @@ function mouseupHandler() {
 }
 document.addEventListener("mousemove", mousemoveHandler);
 function mousemoveHandler(event){
-    mouseX = event.clientX - window.innerWidth/2 + 400;
-    mouseY = event.clientY;
+    mouseX = event.clientX - cnv.offsetLeft;
+    mouseY = event.clientY - cnv.offsetTop;
 }
 function bubbleClicked(aBubble) {
     if (dist(mouseX, mouseY, aBubble.x, aBubble.y) < aBubble.r && mouseIsPressed) {
